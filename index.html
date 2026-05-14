@@ -3,18 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SatuMimpi Finder | Dark Mode</title>
-    <link rel="stylesheet" href="style.css">
+    <title>NEXUS | siCepu Tracker</title>
+    <link rel="stylesheet" href="/sytle/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="assets/logo_nexus.png" type="image/png">
 </head>
 <body>
 
 <div class="app-container">
     <header>
-        <h1>SatuMimpi</h1>
+        <div>
+            <img src="assets/AriyA_gift.gif" class="header-logo-l" alt="Logo L">
+            <img src="assets/aditfams_gif.gif" class="header-logo-k" alt="Logo R">
+            <!-- <img src="assets/logo_nexus.png" class="header-logo-k" alt="Logo R"> -->
+            <!-- <img src="assets/aditfams_gif.gif" class="header-logo-k" alt="Logo R">
+            <img src="assets/aditfams_gif.gif" class="header-logo-k" alt="Logo R">
+            <img src="assets/aditfams_gif.gif" class="header-logo-k" alt="Logo R">
+            <img src="assets/aditfams_gif.gif" class="header-logo-k" alt="Logo R">
+            <img src="assets/aditfams_gif.gif" class="header-logo-k" alt="Logo R"> -->
+            <h1 class="nxs">SatuMimpi Tracker | by SiRoi</h1>
+        </div>
         <div class="status-badge">
             <span class="dot"></span> Online
         </div>
+        <div class="server-selector">
+        <select id="serverSelect">
+            <option value="3e3gdb">SatuMimpi (Default)</option>
+            <option value="98yrzem">Jing Arena</option>
+            <option value="zrvmg4">IME Roleplay</option>
+            <option value="vgaqm5">Garuda Prime RP</option>
+        </select>
+    </div>
     </header>
 
     <div class="search-section">
@@ -26,20 +45,22 @@
 
     <div id="info-text"></div>
 
-    <div class="table-wrapper" id="listContainer">
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Pemain</th>
-                    <th>Ping</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody"></tbody>
-        </table>
+    <div class="layout-wrapper">
+        <div class="table-wrapper" id="listContainer">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Pemain</th>
+                        <th>Ping</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
     </div>
 </div>
 
-<script src="script.js"></script>
+<script src="/script/script.js"></script>
 </body>
 </html>

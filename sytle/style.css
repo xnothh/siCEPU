@@ -16,7 +16,96 @@
     font-family: 'Inter', sans-serif;
 }
 
+.nxs {
+    font-size:large;
+}
+/* Container utama di dalam header */
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px; /* Jarak antara logo dan teks */
+    margin-bottom: 10px;
+}
+
+/* Ukuran Logo di Header */
+.header-logo-l {
+    width: 25%; 
+    height: 25%;
+    object-fit: fill;
+}
+
+.header-logo-k {
+    width: 30%; 
+    height: 30%;
+    object-fit: fill;
+}
+
+/* Wrapper untuk judul dan sub-teks */
+.title-wrapper {
+    text-align: center;
+}
+
+.title-wrapper h1 {
+    margin-bottom: 0; /* Menghilangkan margin bawah h1 agar dekat dengan 'by siroi' */
+    line-height: 1;
+}
+
+.server-selector {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+#serverSelect {
+    background: var(--card-bg);
+    color: var(--text-main);
+    border: 1px solid var(--border);
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    width: 100%;
+    max-width: 250px;
+}
+
+#serverSelect:focus {
+    border-color: var(--success);
+}
+
+/* Merapikan susunan logo dan judul agar sejajar horizontal */
+.header-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 5px;
+}
+
+
+/* Gaya teks 'by siroi' */
+.author {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: 4px;
+    letter-spacing: 1px;
+    text-transform: lowercase;
+}
+
 body {
+
+    /* Masukkan link gambar Anda di dalam url() */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('/assets/logo_nexus.png');
+    
+    /* Pengaturan agar gambar menutupi seluruh layar */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+
     background-color: var(--bg-color);
     color: var(--text-main);
     display: flex;
@@ -28,7 +117,22 @@ body {
 
 .app-container {
     width: 100%;
-    max-width: 480px;
+    max-width: 900px;
+    transition: all 0.3s ease;
+}
+
+.layout-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.side-img {
+    width: 180px; /* Ukuran gambar samping */
+    height: auto;
+    object-fit: contain;
+    display: none; /* Default sembunyi */
 }
 
 header {
@@ -117,6 +221,8 @@ button:hover {
     border-radius: 12px;
     overflow: hidden;
     display: none;
+    flex: 1; 
+    max-width: 480px;
 }
 
 table {
@@ -156,3 +262,13 @@ tr:last-child td {
 /* Scrollbar */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+@media (max-width: 480px) {
+    .header-logo {
+        width: 35px;
+        height: 35px;
+    }
+    .header-content {
+        gap: 10px;
+    }
+}
