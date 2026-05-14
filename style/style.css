@@ -1,0 +1,78 @@
+:root {
+    --primary-color: #ff4b2b;
+    --bg-color: #f4f7f6;
+    --card-bg: #ffffff;
+    --text-color: #333;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+
+body {
+    background-color: var(--bg-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.main-card {
+    background: var(--card-bg);
+    width: 100%;
+    max-width: 500px;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+header { text-align: center; margin-bottom: 1.5rem; }
+header h1 { color: var(--primary-color); }
+
+.search-group { margin-bottom: 1rem; }
+.search-group label { display: block; font-size: 0.8rem; margin-bottom: 5px; font-weight: 600; color: #666; }
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #eee;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.3s;
+}
+
+input:focus { border-color: var(--primary-color); }
+
+button {
+    width: 100%;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#info-text { text-align: center; margin: 1rem 0; font-size: 0.9rem; }
+
+.player-container {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    display: none;
+}
+
+table { width: 100%; border-collapse: collapse; }
+th { background: #f8f9fa; padding: 10px; text-align: left; font-size: 0.75rem; color: #888; }
+td { padding: 10px; border-bottom: 1px solid #f1f1f1; font-size: 0.9rem; }
+
+.ping-badge {
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    background: #d4edda;
+    color: #155724;
+}

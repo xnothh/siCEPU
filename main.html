@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FiveM Player Search</title>
+    <link rel="stylesheet" href="../style/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="main-card">
+    <header>
+        <h1>FiveM Player Search</h1>
+        <p>Cari pemain spesifik di dalam server</p>
+    </header>
+
+    <div class="search-group">
+        <label>Server ID (Cfx Code):</label>
+        <input type="text" id="serverId" placeholder="Misal: 3e3gdb" maxlength="10">
+    </div>
+
+    <div class="search-group">
+        <label>Nama Pemain:</label>
+        <input type="text" id="playerName" placeholder="Ketik nama pemain...">
+    </div>
+
+    <button id="searchBtn">Cari Pemain</button>
+
+    <div id="info-text"></div>
+
+    <div class="player-container" id="listContainer">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nama Pemain</th>
+                    <th>Ping</th>
+                </tr>
+            </thead>
+            <tbody id="playerTable"></tbody>
+        </table>
+    </div>
+</div>
+
+<script src="../script/script.js"></script>
+</body>
+</html>
