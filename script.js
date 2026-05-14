@@ -18,7 +18,7 @@ async function searchPlayer() {
     listContainer.style.display = "none";
     playerTable.innerHTML = "";
 
-    const proxyUrl = "https://corsproxy.io/?";
+    const proxyUrl = "https://api.allorigins.win/raw?url=";
     const targetUrl = `https://servers-frontend.fivem.net/api/servers/single/${sId}`;
 
     try {
