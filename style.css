@@ -1,14 +1,24 @@
 :root {
-    --primary-color: #ff4b2b;
-    --bg-color: #f4f7f6;
-    --card-bg: #ffffff;
-    --text-color: #333;
+    --bg-color: #0a0a0a;
+    --card-bg: #141414;
+    --text-main: #ffffff;
+    --text-dim: #a0a0a0;
+    --accent: #ffffff;
+    --danger: #ff4444;
+    --success: #00ff88;
+    --border: #262626;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+}
 
 body {
     background-color: var(--bg-color);
+    color: var(--text-main);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,63 +26,133 @@ body {
     padding: 20px;
 }
 
-.main-card {
-    background: var(--card-bg);
+.app-container {
     width: 100%;
-    max-width: 500px;
-    padding: 2rem;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    max-width: 480px;
 }
 
-header { text-align: center; margin-bottom: 1.5rem; }
-header h1 { color: var(--primary-color); }
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
 
-.search-group { margin-bottom: 1rem; }
-.search-group label { display: block; font-size: 0.8rem; margin-bottom: 5px; font-weight: 600; color: #666; }
+header h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    background: var(--card-bg);
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    background: var(--success);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--success);
+}
+
+.search-section {
+    position: relative;
+    display: flex;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+}
 
 input {
-    width: 100%;
-    padding: 12px;
-    border: 2px solid #eee;
-    border-radius: 8px;
+    flex: 1;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-size: 0.95rem;
     outline: none;
-    transition: 0.3s;
+    transition: all 0.2s ease;
 }
 
-input:focus { border-color: var(--primary-color); }
+input:focus {
+    border-color: var(--accent);
+}
 
 button {
-    width: 100%;
-    background: var(--primary-color);
-    color: white;
+    background: var(--text-main);
+    color: var(--bg-color);
     border: none;
-    padding: 14px;
-    border-radius: 8px;
-    font-weight: 600;
+    padding: 0 18px;
+    border-radius: 12px;
     cursor: pointer;
-    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s;
 }
 
-#info-text { text-align: center; margin: 1rem 0; font-size: 0.9rem; }
+button:hover {
+    opacity: 0.8;
+}
 
-.player-container {
-    max-height: 300px;
-    overflow-y: auto;
-    border: 1px solid #eee;
-    border-radius: 8px;
+#info-text {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    text-align: center;
+    margin-bottom: 1rem;
+    min-height: 1rem;
+}
+
+.table-wrapper {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
     display: none;
 }
 
-table { width: 100%; border-collapse: collapse; }
-th { background: #f8f9fa; padding: 10px; text-align: left; font-size: 0.75rem; color: #888; }
-td { padding: 10px; border-bottom: 1px solid #f1f1f1; font-size: 0.9rem; }
-
-.ping-badge {
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-size: 0.7rem;
-    font-weight: bold;
-    background: #d4edda;
-    color: #155724;
+table {
+    width: 100%;
+    border-collapse: collapse;
 }
+
+th {
+    text-align: left;
+    padding: 12px 16px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+}
+
+td {
+    padding: 14px 16px;
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+.ping-val {
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.good { color: var(--success); }
+.warn { color: #ffcc00; }
+.bad { color: var(--danger); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }

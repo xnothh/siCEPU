@@ -3,46 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FiveM Player Search</title>
+    <title>SatuMimpi Finder | Dark Mode</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<div class="main-card">
+<div class="app-container">
     <header>
-        <h1>FiveM Player Search</h1>
-        <p>Cari pemain spesifik di dalam server</p>
+        <h1>SatuMimpi</h1>
+        <div class="status-badge">
+            <span class="dot"></span> Online
+        </div>
     </header>
 
-    <div class="search-group">
-        <label>Server ID (Cfx Code):</label>
-        <input type="text" id="serverId" placeholder="Misal: 3e3gdb" maxlength="10">
+    <div class="search-section">
+        <input type="text" id="playerName" placeholder="Cari nama pemain..." autocomplete="off">
+        <button id="searchBtn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </button>
     </div>
-
-    <div class="search-group">
-        <label>Nama Pemain:</label>
-        <input type="text" id="playerName" placeholder="Ketik nama pemain...">
-    </div>
-
-    <button id="searchBtn">Cari Pemain</button>
 
     <div id="info-text"></div>
 
-    <div class="player-container" id="listContainer">
-        <table>
+    <div class="table-wrapper" id="listContainer">
+        <table id="playerTable">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Nama Pemain</th>
+                    <th>Pemain</th>
                     <th>Ping</th>
                 </tr>
             </thead>
-            <tbody id="playerTable"></tbody>
+            <tbody id="tableBody"></tbody>
         </table>
     </div>
 </div>
 
-<script src="/script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
