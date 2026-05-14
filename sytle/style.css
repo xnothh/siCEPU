@@ -98,7 +98,7 @@
 body {
 
     /* Masukkan link gambar Anda di dalam url() */
-    background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('/assets/logo_nexus.png');
+    background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('assets/logo_nexus.png');
     
     /* Pengaturan agar gambar menutupi seluruh layar */
     background-size: cover;
