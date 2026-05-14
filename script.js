@@ -1,40 +1,72 @@
-async function searchPlayer() {
-    const pName = nameInput.value.trim().toLowerCase();
-    updateStatus("Menghubungkan...", "var(--text-dim)");
-    
-    // Gunakan proxy ini, sangat stabil untuk Netlify dan Localhost
-    const proxyUrl = "https://api.allorigins.win/raw?url="; 
-    const targetUrl = `https://servers-frontend.fivem.net/api/servers/single/${targetServerId}`;
+document.addEventListener('DOMContentLoaded', () => {
+    const searchBtn = document.getElementById('searchBtn');
+    const nameInput = document.getElementById('playerName');
+    const infoText = document.getElementById('info-text');
+    const listContainer = document.getElementById('listContainer');
+    const tableBody = document.getElementById('tableBody');
 
-    try {
-        // Tambahkan cache: 'no-cache' agar data selalu fresh (penting untuk list player)
-        const response = await fetch(proxyUrl + encodeURIComponent(targetUrl), {
-            cache: 'no-cache'
-        });
+    const targetServerId = "3e3gdb"; 
 
-        if (!response.ok) throw new Error("Proxy Error");
+    async function searchPlayer() {
+        const pName = nameInput.value.trim().toLowerCase();
 
-        const result = await response.json();
-        
-        // Validasi struktur data FiveM
-        if (!result || !result.Data || !result.Data.players) {
-            updateStatus("Data tidak tersedia.", "var(--danger)");
-            return;
+        updateStatus("Menghubungkan ke SatuMimpi...", "var(--text-dim)");
+        listContainer.style.display = "none";
+        tableBody.innerHTML = "";
+
+        // Ganti ke corsproxy.io karena AllOrigins sedang sering timeout
+        const targetUrl = `https://servers-frontend.fivem.net/api/servers/single/${targetServerId}`;
+        const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
+
+        try {
+            // Mengambil data tanpa AbortController agar tidak cepat timeout[cite: 2]
+            const response = await fetch(proxyUrl);
+            
+            if (!response.ok) throw new Error("Server Sibuk");
+
+            const result = await response.json();
+            
+            if (!result || !result.Data || !result.Data.players) {
+                updateStatus("Data pemain tidak publik atau sedang error.", "var(--danger)");
+                return;
+            }
+
+            const allPlayers = result.Data.players;
+            const filtered = allPlayers.filter(p => p.name.toLowerCase().includes(pName));
+
+            if (filtered.length > 0) {
+                updateStatus(`${filtered.length} pemain online`, "var(--success)");
+                renderTable(filtered);
+            } else {
+                updateStatus(`"${pName}" sedang tidak online.`, "var(--danger)");
+            }
+        } catch (err) {
+            console.error("Error Log:", err);
+            updateStatus("Gagal memuat data. Coba lagi dalam 5 detik.", "var(--danger)");
         }
-
-        const filtered = result.Data.players.filter(p => 
-            p.name.toLowerCase().includes(pName)
-        );
-
-        if (filtered.length > 0) {
-            updateStatus(`${filtered.length} ditemukan`, "var(--text-dim)");
-            renderTable(filtered);
-        } else {
-            updateStatus("Pemain tidak ditemukan", "var(--danger)");
-        }
-    } catch (err) {
-        // Jika AllOrigins gagal, beri pesan yang jelas
-        updateStatus("Koneksi gagal. Coba refresh halaman.", "var(--danger)");
-        console.error("Detail Error:", err);
     }
-}
+
+    function renderTable(players) {
+        tableBody.innerHTML = "";
+        players.forEach(p => {
+            const row = document.createElement('tr');
+            let pClass = p.ping > 200 ? "bad" : (p.ping > 100 ? "warn" : "good");
+
+            row.innerHTML = `
+                <td style="color: var(--text-dim)">#${p.id}</td>
+                <td style="font-weight: 600;">${p.name}</td>
+                <td class="ping-val ${pClass}">${p.ping}ms</td>
+            `;
+            tableBody.appendChild(row);
+        });
+        listContainer.style.display = "block";
+    }
+
+    function updateStatus(text, color) {
+        infoText.innerText = text;
+        infoText.style.color = color;
+    }
+
+    searchBtn.addEventListener('click', searchPlayer);
+    nameInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') searchPlayer(); });
+});
