@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateStatus(`${filtered.length} pemain ditemukan di ${selectedServerName}`, "var(--success)");
                 renderTable(filtered);
             } else {
-                updateStatus(`"${pName}" tidak ditemukan di ${selectedServerName}.`, "var(--danger)");
+                updateStatus(`"${pName}" sedang offline/tidak dapat ditemukan di ${selectedServerName}.`, "var(--danger)");
             }
         } catch (err) {
             console.error("Error Log:", err);
