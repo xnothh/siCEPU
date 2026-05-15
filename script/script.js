@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // URL target menggunakan ID dari dropdown
         const targetUrl = `https://servers-frontend.fivem.net/api/servers/single/${selectedServerId}`;
-        const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
+        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
 
         try {
             const response = await fetch(proxyUrl);
