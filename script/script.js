@@ -6,38 +6,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const tableBody = document.getElementById('tableBody');
     const serverSelect = document.getElementById('serverSelect');
 
-    async function searchPlayer() {
+    async function fetchServerData() {
         const pName = nameInput.value.trim().toLowerCase();
         const selectedServerId = serverSelect.value;
         const selectedServerName = serverSelect.options[serverSelect.selectedIndex].text;
 
+        // Reset tampilan setiap kali pencarian baru dimulai
         updateStatus(`Menghubungkan ke ${selectedServerName}...`, "var(--text-dim)");
         listContainer.style.display = "none";
         tableBody.innerHTML = "";
-
+        
         const targetUrl = `https://servers-frontend.fivem.net/api/servers/single/${selectedServerId}`;
         
-        /**
-         * DAFTAR PROXY (DIPRIORITASKAN)
-         * Ganti link pertama dengan link Cloudflare Worker milikmu!
-         */
+        // Daftar Proxy Fallback
         const proxies = [
-            `https://satumimpi-proxy.username.workers.dev/?url=${encodeURIComponent(targetUrl)}&v=${Date.now()}`,
+            `https://sicepu.ariyautama77.workers.dev/?url=${encodeURIComponent(targetUrl)}&v=${Date.now()}`,
             `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`,
-            `https://thingproxy.freeboard.io/fetch/${targetUrl}`
+            `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`,
+            `https://thingproxy.freeboard.io/fetch/${targetUrl}`,
         ];
 
         let success = false;
 
         for (let proxyUrl of proxies) {
             try {
-                // Jangan tampilkan pesan "jalur cadangan" jika ini adalah percobaan pertama (Cloudflare)
-                if (proxies.indexOf(proxyUrl) > 0) {
-                    updateStatus(`Mencoba jalur cadangan...`, "var(--text-dim)");
-                }
-                
                 const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 8000); // Timeout 8 detik
+                const timeoutId = setTimeout(() => controller.abort(), 8000); 
 
                 const response = await fetch(proxyUrl, { signal: controller.signal });
                 clearTimeout(timeoutId);
@@ -48,30 +42,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if (result && result.Data && result.Data.players) {
                     const allPlayers = result.Data.players;
-                    const filtered = allPlayers.filter(p => p.name.toLowerCase().includes(pName));
+                    
+                    // Jika input kosong -> tampilkan semua. Jika ada teks -> filter nama.
+                    const filtered = pName === "" 
+                        ? allPlayers 
+                        : allPlayers.filter(p => p.name.toLowerCase().includes(pName));
 
                     if (filtered.length > 0) {
-                        updateStatus(`${filtered.length} ditemukan di ${selectedServerName}`, "var(--success)");
                         renderTable(filtered);
+                        updateStatus(pName === "" ? `Total Online: ${filtered.length}` : `${filtered.length} Pemain ditemukan`, "var(--success)");
+                        listContainer.style.display = "block";
                     } else {
-                        updateStatus(`"${pName}" tidak ditemukan.`, "var(--danger)");
+                        updateStatus(`"${pName}" tidak ditemukan di ${selectedServerName}.`, "var(--danger)");
                     }
+                    
                     success = true;
                     break; 
                 }
             } catch (err) {
-                console.warn(`Jalur ${proxies.indexOf(proxyUrl) + 1} gagal.`);
-                continue; 
+                console.warn(`Jalur ${proxies.indexOf(proxyUrl) + 1} gagal...`);
+                continue;
             }
         }
 
         if (!success) {
-            updateStatus("Semua jalur sibuk/error. Coba refresh halaman.", "var(--danger)");
+            updateStatus("Semua jalur sibuk. Coba lagi dalam beberapa saat.", "var(--danger)");
         }
     }
 
     function renderTable(players) {
         tableBody.innerHTML = "";
+        players.sort((a, b) => a.id - b.id);
+
         players.forEach(p => {
             const row = document.createElement('tr');
             let pClass = p.ping > 200 ? "bad" : (p.ping > 100 ? "warn" : "good");
@@ -82,7 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             tableBody.appendChild(row);
         });
-        listContainer.style.display = "block";
     }
 
     function updateStatus(text, color) {
@@ -90,7 +91,22 @@ document.addEventListener('DOMContentLoaded', () => {
         infoText.style.color = color;
     }
 
-    searchBtn.addEventListener('click', searchPlayer);
-    nameInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') searchPlayer(); });
-    serverSelect.addEventListener('change', () => { if (nameInput.value.trim() !== "") searchPlayer(); });
+    // LISTENER AKSI USER
+    
+    // 1. Klik tombol Search
+    searchBtn.addEventListener('click', fetchServerData);
+    
+    // 2. Tekan tombol ENTER pada kolom input
+    nameInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            fetchServerData();
+        }
+    });
+
+    // 3. Ganti server pada dropdown (Otomatis load karena server berubah)
+    serverSelect.addEventListener('change', fetchServerData);
+
+    /** * PENTING: Baris fetchServerData() di sini telah dihapus 
+     * agar web tidak otomatis loading saat pertama kali dibuka.
+     */
 });
