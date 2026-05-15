@@ -17,22 +17,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const targetUrl = `https://servers-frontend.fivem.net/api/servers/single/${selectedServerId}`;
         
-        // Daftar Proxy yang akan dicoba berurutan jika salah satu gagal
+        /**
+         * DAFTAR PROXY (DIPRIORITASKAN)
+         * Ganti link pertama dengan link Cloudflare Worker milikmu!
+         */
         const proxies = [
+            `https://satumimpi-proxy.username.workers.dev/?url=${encodeURIComponent(targetUrl)}&v=${Date.now()}`,
             `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`,
-            `https://thingproxy.freeboard.io/fetch/${targetUrl}`,
-            `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`
+            `https://thingproxy.freeboard.io/fetch/${targetUrl}`
         ];
 
         let success = false;
 
         for (let proxyUrl of proxies) {
             try {
-                updateStatus(`Mencoba jalur cadangan...`, "var(--text-dim)");
+                // Jangan tampilkan pesan "jalur cadangan" jika ini adalah percobaan pertama (Cloudflare)
+                if (proxies.indexOf(proxyUrl) > 0) {
+                    updateStatus(`Mencoba jalur cadangan...`, "var(--text-dim)");
+                }
                 
-                // Set timeout manual 8 detik agar tidak menunggu selamanya
                 const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 8000);
+                const timeoutId = setTimeout(() => controller.abort(), 8000); // Timeout 8 detik
 
                 const response = await fetch(proxyUrl, { signal: controller.signal });
                 clearTimeout(timeoutId);
@@ -41,7 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const result = await response.json();
                 
-                // Jika data berhasil didapat
                 if (result && result.Data && result.Data.players) {
                     const allPlayers = result.Data.players;
                     const filtered = allPlayers.filter(p => p.name.toLowerCase().includes(pName));
@@ -53,16 +57,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         updateStatus(`"${pName}" tidak ditemukan.`, "var(--danger)");
                     }
                     success = true;
-                    break; // Berhenti mencoba proxy lain jika sudah berhasil
+                    break; 
                 }
             } catch (err) {
-                console.warn(`Proxy gagal: ${proxyUrl.split('/')[2]}`);
-                continue; // Lanjut ke proxy berikutnya di daftar
+                console.warn(`Jalur ${proxies.indexOf(proxyUrl) + 1} gagal.`);
+                continue; 
             }
         }
 
         if (!success) {
-            updateStatus("Semua jalur sibuk. Coba lagi dalam beberapa saat.", "var(--danger)");
+            updateStatus("Semua jalur sibuk/error. Coba refresh halaman.", "var(--danger)");
         }
     }
 
